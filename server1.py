@@ -11,17 +11,37 @@ req_threads=[]
 def init():
 	sock.bind(('0.0.0.0',10000))
 	sock.listen(100)
+
+def chat_with_ur_firend(from_conn,to_conn,c):
 	
+	while True:
+		data=from_conn.recv(1024)
+		print(data)
+		to_conn.send(bytes(input(),'utf-8'))
+	
+	
+def send_target_conn_obj(cmd,c):
+	i=address.index(eval(cmd))
+	all_connections[c].send(bytes(str(address[i]),'utf-8'))
+	return all_connections[i]
+
 def request(c):
 	
 	
 	while True:
+			
 			
 			cmd=all_connections[c].recv(1024)
 			cmd=cmd.decode()
 			
 			if str(cmd)=='list':
 				send_connections(c)
+			elif '(' in str(cmd):
+				frnd_conn=send_target_conn_obj(cmd,c)
+				chat_with_ur_firend(all_connections[c],frnd_conn,c)
+				
+			
+				
 	
 
 def connections():
