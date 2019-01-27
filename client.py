@@ -28,9 +28,10 @@ def init(address):
 def list_connections(cmd):
 	sock.send(str.encode(cmd))
 	Friends_list=sock.recv(1024)
-	Friends_list=Friends_list.decode("utf-8")
+	Friends_list=eval(Friends_list.decode("utf-8"))
+	for i,x in enumerate(Friends_list):
+		print(i," ",x)
 	
-	print(Friends_list[1:-1],end="\n")
 	
 
 def start_chat():
